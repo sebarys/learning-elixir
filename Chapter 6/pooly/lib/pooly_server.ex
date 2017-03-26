@@ -2,17 +2,13 @@ defmodule Pooly.Server do
 	use GenServer
 	import Supervisor.Spec
 
-	defmodule State do
-		defstruct sup: nil, worker_sup: nil, size: nil, workers: nil, mfa: nil, monitors: nil  
-	end
-
 	## Client API
 	def start_link(sup, pools_config) do
 		GenServer.start_link(__MODULE__, pools_config, name: __MODULE__)
 	end
 
-	def checkout(pool_name) do
-		GenServer.call(:"#{pool_name}Server", :checkout)
+	def checkout(pool_name, block, timeout) do
+		Pooly.PoolServer.checkout(pool_name, block, timeout)
 	end
 
 	def checkin(pool_name, worker_pid) do
