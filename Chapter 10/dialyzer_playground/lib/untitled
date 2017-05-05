@@ -1,0 +1,51 @@
+
+gunzip -c * | jq 'select(.message.level == "ERROR")' | jq -s 'length'
+800 errors
+
+************************************************************************************
+No required consent reference:
+
+gunzip -c * | jq 'select((.message.level == "ERROR") and (.message.log.stacktrace | contains("there is no consent for given consent reference")))' | jq -s 'length'
+418
+
+gunzip -c * | jq 'select((.message.level == "ERROR") and (.message.log.stacktrace | contains("storksbeat/data")) and (.message.log.stacktrace | contains("there is no consent for given consent reference")))' | jq -s 'length'
+90
+
+gunzip -c * | jq 'select((.message.level == "ERROR") and (.message.log.stacktrace | contains("argotest/data")) and (.message.log.stacktrace | contains("there is no consent for given consent reference")) and (.message.log.stacktrace | contains("TENANT")))' | jq -s 'length'
+328
+
+"com.hybris.cdm.graph.exception.NotificationFailedException: Unable to notify message 403 to https://context-service-v1.us-east.internal.yaas.io/argotest/data returned : {\n  \"status\" : 403,\n  \"message\" : \"Access forbidden, there is no consent for given consent reference 'TENANT' and schema X"\n}
+
+X - e.g. 
+https://api.yaas.io/metamodel/v1/relations/core/Identity/commerce/Order/commerce/PLACED
+https://api.yaas.io/metamodel/v1/relations/core/Profile/commerce/Product/commerce/ORDERED
+
+************************************************************************************
+Errors during stream processing:
+
+gunzip -c * | jq 'select((.message.level == "ERROR") and (.message.log.message | contains("Error during processing")))' | jq -s 'length'
+157
+
+************************************************************************************
+
+gunzip -c * | jq 'select((.message.level == "ERROR") and (.message.log.message | contains("Error during processing")) and (.message.log.message | contains("argotest")))' | jq -s 'length'
+93
+
+************************************************************************************
+
+gunzip -c * | jq 'select((.message.level == "ERROR") and (.message.log.message | contains("Error during processing")) and (.message.log.message | contains("undefined")))' | jq -s 'length'
+65
+
+************************************************************************************
+
+gunzip -c * | jq 'select((.message.level == "ERROR") and (.message.log.message | contains("Error during processing")) and (.message.log.message | contains("undefined")) and (.message.log.message | contains("argotest")))' | jq -s 'length'
+43
+
+gunzip -c * | jq 'select((.message.level == "ERROR") and (.message.log.stacktrace | contains("encryption-collapsed.graph.collapserThreadPool")))' | jq -s 'length'
+7
+
+************************************************************************************
+
+com.netflix.hystrix.exception.HystrixRuntimeException: encryption-collapsed.graph.collapserThreadPool failed and no fallback available
+
+Mapping CollapserException to status 500

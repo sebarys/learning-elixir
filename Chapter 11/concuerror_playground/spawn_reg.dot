@@ -1,0 +1,24 @@
+digraph {
+  graph [ranksep=0.3]
+  node [shape=box,width=7,fontname=Monospace]
+  init [label="Initial"];
+  subgraph {
+    "#Ref<0.0.1.338>" [label="        1: P: P.1 = erlang:spawn(erlang, apply, [...])\l"];
+    "init" -> "#Ref<0.0.1.338>"[weight=1000];
+    "#Ref<0.0.1.356>" [label="        2: P: Exception badarg raised by: erlang:send('Elixir.SpawnReg', stop)\l",color=orange,penwidth=5];
+    "#Ref<0.0.1.338>" -> "#Ref<0.0.1.356>"[weight=1000];
+    "#Ref<0.0.1.360>" [label="        3: P: exits abnormally ({...})\l",color=red,penwidth=5];
+    "#Ref<0.0.1.356>" -> "#Ref<0.0.1.360>"[weight=1000];
+    "#Ref<0.0.1.363>" [label="        4: P.1: undefined = erlang:whereis('Elixir.SpawnReg')\l"];
+    "#Ref<0.0.1.360>" -> "#Ref<0.0.1.363>"[weight=1000];
+    "#Ref<0.0.1.365>" [label="        5: P.1: P.1.1 = erlang:spawn(erlang, apply, [...])\l"];
+    "#Ref<0.0.1.363>" -> "#Ref<0.0.1.365>"[weight=1000];
+    "#Ref<0.0.1.367>" [label="        6: P.1: true = erlang:register('Elixir.SpawnReg', P.1.1)\l"];
+    "#Ref<0.0.1.365>" -> "#Ref<0.0.1.367>"[weight=1000];
+    "#Ref<0.0.1.369>" [label="        7: P.1: exits normally\l",color=lime,penwidth=5];
+    "#Ref<0.0.1.367>" -> "#Ref<0.0.1.369>"[weight=1000];
+    "#Ref<0.0.1.356>":e -> "#Ref<0.0.1.367>":e[constraint=false, color=red, dir=back, penwidth=3, style=dashed];
+    "#Ref<0.0.1.406>" [label="1: Error ([P.1.1] blocked)",style=filled,fillcolor=red];
+    "#Ref<0.0.1.369>" -> "#Ref<0.0.1.406>"[weight=1000];
+  }
+}
